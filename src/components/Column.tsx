@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Droppable } from '@hello-pangea/dnd';
 import { Task, TaskStatus } from '../types';
 import TaskCard from './TaskCard';
@@ -8,9 +9,19 @@ interface Props {
   tasks: Task[];
   onNewTask?: () => void;
   onDeleteTask: (id: string) => void;
+  onCardClick: (id: string) => void;
+  emptyState?: ReactNode;
 }
 
-export default function Column({ id, label, tasks, onNewTask, onDeleteTask }: Props) {
+export default function Column({
+  id,
+  label,
+  tasks,
+  onNewTask,
+  onDeleteTask,
+  onCardClick,
+  emptyState,
+}: Props) {
   const isNeedsInput = id === 'needs-input';
 
   return (
@@ -59,9 +70,15 @@ export default function Column({ id, label, tasks, onNewTask, onDeleteTask }: Pr
                 task={task}
                 index={index}
                 onDelete={onDeleteTask}
+                onCardClick={onCardClick}
               />
             ))}
             {provided.placeholder}
+            {tasks.length === 0 && emptyState ? (
+              <div className="flex flex-1 items-center justify-center px-4 py-8 text-center text-sm text-gray-500">
+                {emptyState}
+              </div>
+            ) : null}
           </div>
         )}
       </Droppable>
