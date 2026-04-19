@@ -9,9 +9,16 @@ interface Props {
   onDragEnd: (result: DropResult) => void;
   onCreateTask: (title: string, agent: Agent) => void;
   onDeleteTask: (id: string) => void;
+  onCardClick: (id: string) => void;
 }
 
-export default function Board({ tasks, onDragEnd, onCreateTask, onDeleteTask }: Props) {
+export default function Board({
+  tasks,
+  onDragEnd,
+  onCreateTask,
+  onDeleteTask,
+  onCardClick,
+}: Props) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const tasksByStatus: Record<TaskStatus, Task[]> = {
@@ -24,6 +31,8 @@ export default function Board({ tasks, onDragEnd, onCreateTask, onDeleteTask }: 
     tasksByStatus[task.status].push(task);
   }
 
+  const boardIsEmpty = tasks.length === 0;
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="flex h-full w-full gap-3 overflow-x-auto p-3">
@@ -35,6 +44,12 @@ export default function Board({ tasks, onDragEnd, onCreateTask, onDeleteTask }: 
             tasks={tasksByStatus[col.id]}
             onNewTask={col.id === 'backlog' ? () => setModalOpen(true) : undefined}
             onDeleteTask={onDeleteTask}
+            onCardClick={onCardClick}
+            emptyState={
+              col.id === 'backlog' && boardIsEmpty
+                ? 'No tasks yet. Click + New task to get started.'
+                : undefined
+            }
           />
         ))}
       </div>
