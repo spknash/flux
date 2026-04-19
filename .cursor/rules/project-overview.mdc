@@ -1,0 +1,19 @@
+---
+description: Keep project-overview.md accurate when the codebase changes significantly
+alwaysApply: true
+---
+
+# Project overview maintenance
+
+The repository includes `project-overview.md`, a living summary of **what is actually implemented** and **how the app behaves** (architecture, main vs renderer responsibilities, gaps vs README).
+
+Whenever you make **large or structural changes**, update `project-overview.md` in the same work so it stays current. Treat “large” as any of the following:
+
+- New or removed major features, processes, or user-facing flows (e.g. new IPC surfaces, persistence strategy, packaging, or primary screens).
+- Meaningful changes to how data flows (e.g. renderer vs main source of truth, new stores or sync behavior).
+- New dependencies or build/pipeline changes that affect how developers run or ship the app.
+- Substantial README-level vision vs implementation drift that this file is meant to document.
+
+**Do not** expand `project-overview.md` for tiny edits (typos, single-line fixes, narrow refactors) unless they change behavior or architecture worth recording.
+
+When updating, keep sections factual and concise: adjust “How the app works today”, “Implemented vs not yet”, tech stack, or layout as needed. If the project name or scope in `package.json` / `README.md` changes materially, reflect that here too.
